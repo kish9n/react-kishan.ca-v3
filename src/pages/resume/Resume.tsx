@@ -23,6 +23,7 @@ export const Resume = () => {
     "AngularJS",
     "NodeJS",
     "Electron",
+    "NextJS",
     "GraphQL",
     "NestJS",
   ];
@@ -32,8 +33,9 @@ export const Resume = () => {
     "Visual Studio Code",
     "Git",
     "Powershell",
-    "Azure Cloud",
+    "AWS",
     "Google Cloud Platform",
+    "Wordpress",
   ];
 
   return (
@@ -66,18 +68,18 @@ export const Resume = () => {
                     <strong>BridgeNext</strong>
                   </a>
                 </h4>
-                <h5>October 2023 - November 2024</h5>
+                <h5>October 2023 - Present</h5>
                 <h6>
                   <strong>Full Stack Developer</strong>
                 </h6>
                 <h6>
-                  Tasked as a Fullstack Developer adept at bolstering the
-                  functionality and efficiency of a logistics company's flagship
-                  microservices. Proficient in ReactJS for frontend and NodeJS
-                  with PostgreSQL for backend development, with a focus on bug
-                  resolution, feature enhancements, and seamless deployment.
-                  Skilled in client interaction to align software improvements
-                  with business objectives.
+                  Tasked as a Fullstack Developer adept at bolstering
+                  functionality and efficiency. Proficient in ReactJS and NextJS
+                  for frontend and NodeJS with PostgreSQL for backend
+                  development, with a focus on bug resolution, feature
+                  enhancements, and seamless deployment. Skilled in client
+                  interaction to align software improvements with business
+                  objectives.
                 </h6>
               </div>
               <div className="p-3 mt-3 grey">
