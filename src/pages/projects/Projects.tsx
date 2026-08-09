@@ -1,8 +1,10 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.min.css";
-import "swiper/swiper.min.css";
+import { Pagination, Scrollbar } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 const KData = [
   {
@@ -34,6 +36,7 @@ const KData = [
 const KParallax = () => {
   return (
     <Swiper
+      modules={[Pagination, Scrollbar]}
       className="container"
       spaceBetween={10}
       slidesPerView={2}

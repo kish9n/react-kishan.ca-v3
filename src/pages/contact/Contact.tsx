@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import emailjs from "@emailjs/browser";
-import env from "react-dotenv";
 
 export const Contact = () => {
   const [name, setname] = React.useState("");
@@ -26,10 +25,10 @@ export const Contact = () => {
 
     emailjs
       .send(
-        env.EMAIL_SERVICE_ID,
-        env.EMAIL_TEMPLATE_ID,
+        import.meta.env.VITE_EMAIL_SERVICE_ID,
+        import.meta.env.VITE_EMAIL_TEMPLATE_ID,
         message,
-        env.EMAIL_PUBLIC_KEY
+        import.meta.env.VITE_EMAIL_PUBLIC_KEY
       )
       .then(
         function (response) {

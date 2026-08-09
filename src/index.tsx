@@ -1,5 +1,4 @@
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
@@ -13,5 +12,3 @@ root.render(
     <App />
   </BrowserRouter>
 );
-
-reportWebVitals();
