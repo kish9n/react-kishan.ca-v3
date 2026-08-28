@@ -14,7 +14,7 @@ export const Contact = () => {
   const submitForm = () => {
     console.log("Sending email...");
 
-    let message = {
+    const message = {
       name: name,
       email: email,
       reason: reason,
@@ -132,9 +132,7 @@ export const Contact = () => {
               <Row>
                 <Col>
                   <Button href="mailto:kishan@kishanm.ca">Email</Button>
-                  <Button href="https://github.com/kishanmanoharan">
-                    GitHub
-                  </Button>
+                  <Button href="https://github.com/kish9n">GitHub</Button>
                   <Button href="https://www.linkedin.com/in/kishan-manoharan-333464195/">
                     LinkedIn
                   </Button>

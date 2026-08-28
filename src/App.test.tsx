@@ -17,4 +17,8 @@ test("renders the home page", () => {
   expect(
     screen.getByRole("heading", { name: "Kishan Manoharan" })
   ).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "My work" })).toHaveAttribute(
+    "href",
+    "/projects"
+  );
 });

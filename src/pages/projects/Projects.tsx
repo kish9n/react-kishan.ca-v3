@@ -71,7 +71,7 @@ export const Projects = () => {
             <h2>Projects</h2>
             <h5>
               You can find these on my{" "}
-              <a href="https://github.com/kishanmanoharan">Github</a>
+              <a href="https://github.com/kish9n">Github</a>
             </h5>
           </Row>
         </Container>
