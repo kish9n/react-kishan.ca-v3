@@ -1,11 +1,16 @@
+import { GlassLink } from "../../components/GlassLink";
 import { useRef, useState, type FormEvent } from "react";
-import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Container, Form } from "react-bootstrap";
+import { Download, Envelope, Github, Linkedin } from "react-bootstrap-icons";
+import { Button, Glass, Input } from "glisse";
 import emailjs from "@emailjs/browser";
 
 type Delivery = "idle" | "sending" | "sent" | "failed";
 
 export const Contact = () => {
   const [delivery, setDelivery] = useState<Delivery>("idle");
+  // Glisse inputs keep their own draft values. Remount them after a successful send.
+  const [draftId, setDraftId] = useState(0);
   const inFlight = useRef(false);
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
@@ -34,6 +39,7 @@ export const Contact = () => {
         import.meta.env.VITE_EMAIL_PUBLIC_KEY
       );
       form.reset();
+      setDraftId(id => id + 1);
       setDelivery("sent");
     } catch {
       setDelivery("failed");
@@ -43,13 +49,13 @@ export const Contact = () => {
   }
 
   return (
-    <>
-      <Container fluid className="App-header">
-        <Container className="title title-pad-1">
-          <h1>Contact</h1>
-          <p>You can reach me here!</p>
-        </Container>
-        <Container className="title-pad-0">
+    <Container className="App-header portfolio-page contact-page">
+      <header className="page-heading">
+        <h1>Contact</h1>
+      </header>
+      <div className="portfolio-columns">
+        <section className="glass-panel section-enter" aria-labelledby="contact-message">
+          <h2 id="contact-message">Send a message</h2>
           <Form onSubmit={submitForm} onChange={(event) => {
             const field = event.target;
             if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
@@ -57,30 +63,26 @@ export const Contact = () => {
             }
             setDelivery("idle");
           }}>
-            <fieldset disabled={delivery === "sending"}>
-              <Row>
-                <Col lg={4}>
-                  <Form.Group className="mb-3" controlId="formName">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control name="name" autoComplete="name" required />
-                  </Form.Group>
-                </Col>
-                <Col lg={4}>
-                  <Form.Group className="mb-3" controlId="formEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control name="email" type="email" autoComplete="email" required />
-                  </Form.Group>
-                </Col>
-                <Col lg={4}>
-                  <Form.Group className="mb-3" controlId="formReason">
-                    <Form.Label>Reason (optional)</Form.Label>
-                    <Form.Control name="reason" />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Form.Group className="mb-3" controlId="formDetails">
+            <fieldset key={draftId} disabled={delivery === "sending"}>
+              <div className="contact-fields">
+                <Form.Group controlId="formName">
+                  <Form.Label>Name</Form.Label>
+                  <Input id="formName" name="name" autoComplete="name" required />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Input id="formEmail" name="email" type="email" autoComplete="email" required />
+                </Form.Group>
+              </div>
+              <Form.Group controlId="formReason">
+                <Form.Label>Reason (optional)</Form.Label>
+                <Input id="formReason" name="reason" />
+              </Form.Group>
+              <Form.Group controlId="formDetails">
                 <Form.Label>Message</Form.Label>
-                <Form.Control name="details" as="textarea" rows={3} required />
+                <Glass className="glass-message">
+                  <textarea id="formDetails" name="details" rows={4} required />
+                </Glass>
               </Form.Group>
               <Button type="submit" disabled={delivery === "sending"}>
                 {delivery === "sending" ? "Sending…" : "Send message"}
@@ -97,40 +99,17 @@ export const Contact = () => {
               <a className="alert-link" href="mailto:kishan@kishanm.ca">email me directly</a>.
             </Alert>
           )}
-        </Container>
-        <Container className="title-pad-0">
-          <Row>
-            <Col className="p-3 m-2 grey">
-              <Row>
-                <Col>
-                  <h5>Download my contact card (vCard)</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Button href="/vcard.vcf">vCard</Button>
-                </Col>
-              </Row>
-            </Col>
-            <Col className="p-3 m-2 grey">
-              <Row>
-                <Col>
-                  <h5>You can also reach out to me through</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Button href="mailto:kishan@kishanm.ca">Email</Button>
-                  <Button href="https://github.com/kish9n">GitHub</Button>
-                  <Button href="https://www.linkedin.com/in/kishan-manoharan-333464195/">
-                    LinkedIn
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Container>
-    </>
+        </section>
+        <section className="glass-panel contact-links section-enter section-later" aria-labelledby="contact-links">
+          <h2 id="contact-links">Contact details</h2>
+          <ul>
+            <li><a href="mailto:kishan@kishanm.ca"><Envelope aria-hidden="true" />kishan@kishanm.ca</a></li>
+            <li><a href="https://github.com/kish9n"><Github aria-hidden="true" />GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kishan-manoharan-333464195/"><Linkedin aria-hidden="true" />LinkedIn</a></li>
+          </ul>
+          <GlassLink href="/vcard.vcf" download><Download aria-hidden="true" />Save contact card</GlassLink>
+        </section>
+      </div>
+    </Container>
   );
 };

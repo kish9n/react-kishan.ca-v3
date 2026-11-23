@@ -9,6 +9,7 @@ async function init(engine: Engine) {
 }
 
 const options: ISourceOptions = {
+  fullScreen: { enable: false },
   fpsLimit: 60,
   background: { color: "#000" },
   particles: {

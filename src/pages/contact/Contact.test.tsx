@@ -56,6 +56,8 @@ test("sends once, disables repeat submissions, and clears the form on success", 
   }, "test-key");
   await act(async () => finish());
   expect(screen.getByRole("status")).toHaveTextContent("Message sent!");
+  expect(screen.getByLabelText("Name")).toHaveValue("");
+  expect(screen.getByLabelText("Email")).toHaveValue("");
   expect(screen.getByLabelText("Message")).toHaveValue("");
 });
 

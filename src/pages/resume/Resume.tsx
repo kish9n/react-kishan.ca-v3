@@ -1,162 +1,78 @@
-import React from "react";
-import { Container, Button, Row, Col } from "react-bootstrap";
-import randomColor from "randomcolor";
+import { Container } from "react-bootstrap";
+import { FileEarmarkText } from "react-bootstrap-icons";
+import { GlassLink } from "../../components/GlassLink";
 
-function randColor() {
-  return randomColor({ luminosity: "light" });
-}
+const experience = [
+  {
+    role: "Full Stack Developer",
+    company: "BridgeNext",
+    url: "https://www.bridgenext.com/",
+    dates: "October 2023 – Present",
+    description: "Tasked as a Fullstack Developer adept at bolstering functionality and efficiency. Proficient in ReactJS and NextJS for frontend and NodeJS with PostgreSQL for backend development, with a focus on bug resolution, feature enhancements, and seamless deployment. Skilled in client interaction to align software improvements with business objectives.",
+  },
+  {
+    role: "Software Engineer Consultant",
+    company: "KPMG Canada",
+    url: "https://home.kpmg/ca",
+    dates: "May 2022 – June 2023",
+    description: "Involved in designing, developing, and testing programs and solutions for clients. Worked on a variety of projects, including architecture migration, application development, and data analytics.",
+  },
+];
 
-export const Resume = () => {
-  const langs = [
-    "TypeScript",
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "Java",
-    "C#",
-    "Python",
-  ];
-  const frames = [
-    "Bootstrap",
-    "ReactJS",
-    "AngularJS",
-    "NodeJS",
-    "Electron",
-    "NextJS",
-    "GraphQL",
-    "NestJS",
-  ];
-  const tools = [
-    "PostgreSQL",
-    "MongoDB",
-    "Visual Studio Code",
-    "Git",
-    "Powershell",
-    "AWS",
-    "Google Cloud Platform",
-    "Wordpress",
-  ];
+const skillGroups = [
+  { label: "Languages", items: ["TypeScript", "HTML", "CSS", "JavaScript", "Java", "C#", "Python"] },
+  { label: "Frameworks & technologies", items: ["Bootstrap", "ReactJS", "AngularJS", "NodeJS", "Electron", "NextJS", "GraphQL", "NestJS"] },
+  { label: "Tools & platforms", items: ["PostgreSQL", "MongoDB", "Visual Studio Code", "Git", "Powershell", "AWS", "Google Cloud Platform", "Wordpress"] },
+];
 
-  return (
-    <>
-      <Container fluid className="App-header">
-        <Container className="title title-pad-0">
-          <Row>
-            <h2>Resume</h2>
-            <h6>
-              Take a look below for a quick run-down, or download my full resume
-            </h6>
-            <Col>
-              <Button href="/KishanManoharanResume.pdf" target="_blank">
-                Open Resume
-              </Button>
-            </Col>
-          </Row>
-        </Container>
-        <Container className="title-pad-0">
-          <Row>
-            <Col xl={4} className="text-start p-3">
-              <h2 className="mb-4">Work Experience</h2>
-              <div className="p-3 mt-3 grey">
-                <h4>
-                  <a
-                    href="https://www.bridgenext.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <strong>BridgeNext</strong>
-                  </a>
-                </h4>
-                <h5>October 2023 - Present</h5>
-                <h6>
-                  <strong>Full Stack Developer</strong>
-                </h6>
-                <h6>
-                  Tasked as a Fullstack Developer adept at bolstering
-                  functionality and efficiency. Proficient in ReactJS and NextJS
-                  for frontend and NodeJS with PostgreSQL for backend
-                  development, with a focus on bug resolution, feature
-                  enhancements, and seamless deployment. Skilled in client
-                  interaction to align software improvements with business
-                  objectives.
-                </h6>
+export const Resume = () => (
+  <Container className="App-header portfolio-page resume-page">
+    <header className="page-heading">
+      <h1>Resume</h1>
+      <GlassLink href="/KishanManoharanResume.pdf" target="_blank" rel="noreferrer">
+        <FileEarmarkText aria-hidden="true" />Open resume PDF
+      </GlassLink>
+    </header>
+    <div className="portfolio-columns">
+      <div className="resume-history">
+        <section className="glass-panel section-enter" aria-labelledby="work-experience">
+          <h2 id="work-experience">Work experience</h2>
+          {experience.map(({ role, company, dates, url, description }) => (
+            <article className="resume-entry" key={company}>
+              <h3>{role}</h3>
+              <div className="resume-meta">
+                <a href={url} target="_blank" rel="noreferrer">{company}</a>
+                <span>{dates}</span>
               </div>
-              <div className="p-3 mt-3 grey">
-                <h4>
-                  <a
-                    href="https://home.kpmg/ca"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <strong>KPMG Canada</strong>
-                  </a>
-                </h4>
-                <h5>May 2022 - June 2023</h5>
-                <h6>
-                  <strong>Software Engineer Consultant</strong>
-                </h6>
-                <h6>
-                  Involved in designing, developing, and testing programs and
-                  solutions for clients. Worked on a variety of projects,
-                  including architecture migration, application development, and
-                  data analytics.
-                </h6>
-              </div>
-            </Col>
-            <Col xl={4} className="text-start p-3">
-              <h2 className="mb-4">Knowledge</h2>
-              <Row>
-                <Col>
-                  <div className="p-3 grey">
-                    <h4>
-                      <strong>Languages</strong>
-                    </h4>
-                    {langs.map((lang) => (
-                      <div key={lang} className="tag" style={{ color: randColor() }}>
-                        {lang}
-                      </div>
-                    ))}
-                    <h4 className="pt-3">
-                      <strong>Frameworks</strong>
-                    </h4>
-                    {frames.map((frame) => (
-                      <div key={frame} className="tag" style={{ color: randColor() }}>
-                        {frame}
-                      </div>
-                    ))}
-                    <h4 className="pt-3">
-                      <strong>Others</strong>
-                    </h4>
-                    {tools.map((tool) => (
-                      <div key={tool} className="tag" style={{ color: randColor() }}>
-                        {tool}
-                      </div>
-                    ))}
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-            <Col xl={4} className="text-start p-3">
-              <h2 className="mb-4">Education</h2>
-              <div className="p-3 grey">
-                <h4>
-                  <strong>George Brown College</strong>
-                </h4>
-                <h5>September 2019 - April 2022</h5>
-                <h6>
-                  <strong>Computer Program Analyst - T177</strong>
-                </h6>
-                <h6>
-                  This program excels at giving students the experience and
-                  skills needed for a wide variety of software-based careers.
-                  This includes experience in web, open-source, Unix, and
-                  object-oriented languages.
-                </h6>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </Container>
-    </>
-  );
-};
+              <p>{description}</p>
+            </article>
+          ))}
+        </section>
+        <section className="glass-panel section-enter section-later" aria-labelledby="education">
+          <h2 id="education">Education</h2>
+          <div className="resume-entry">
+            <h3>Computer Program Analyst – T177</h3>
+            <div className="resume-meta">
+              <span>George Brown College</span>
+              <span>September 2019 – April 2022</span>
+            </div>
+            <p>
+              This program excels at giving students the experience and skills needed for a wide
+              variety of software-based careers. This includes experience in web, open-source,
+              Unix, and object-oriented languages.
+            </p>
+          </div>
+        </section>
+      </div>
+      <section className="glass-panel section-enter section-later" aria-labelledby="resume-skills">
+        <h2 id="resume-skills">Skills</h2>
+        {skillGroups.map(({ label, items }) => (
+          <div className="skill-group" key={label}>
+            <h3>{label}</h3>
+            <ul>{items.map(item => <li key={item}>{item}</li>)}</ul>
+          </div>
+        ))}
+      </section>
+    </div>
+  </Container>
+);

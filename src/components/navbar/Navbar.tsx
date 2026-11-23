@@ -1,72 +1,53 @@
-import React, { useState } from "react";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { Link, NavLink } from "react-router-dom";
-import { PersonVcard } from "react-bootstrap-icons";
-import { FileEarmarkText } from "react-bootstrap-icons";
+import type { ComponentProps } from "react";
+import { Link, matchPath, useLocation } from "react-router-dom";
+import { FileEarmarkText, PersonVcard } from "react-bootstrap-icons";
+import { Glass, Menu, TabBar } from "glisse";
 
-export const KNavbar = () => {
-  const [expanded, setExpanded] = useState(false);
+const pages = [
+  { href: "/", value: "/", label: "Home" },
+  { href: "/projects", value: "/projects", label: "Projects" },
+  { href: "/contact", value: "/contact", label: "Contact" },
+  { href: "/resume", value: "/resume", label: "Resume" },
+];
+
+function RouteLink({ href, ...props }: Omit<ComponentProps<typeof Link>, "to"> & { href: string }) {
+  return <Link to={href} {...props} />;
+}
+
+export const KNavbar = ({ reducedMotion }: { reducedMotion: boolean }) => {
+  const { pathname } = useLocation();
+  const selected = pages.find(page => matchPath(page.href, pathname));
 
   return (
-    <Navbar
-      variant="dark"
-      sticky="top"
-      className="blur grey"
-      expand="sm"
-      onToggle={setExpanded}
-      expanded={expanded}
-    >
-      <Navbar.Brand onClick={() => setExpanded(false)} as={Link} to="/">
-        Kishan M
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" aria-expanded={expanded} />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav variant="pills" className="me-auto" defaultActiveKey="/">
-          <NavLink
-            to="/"
-            className="nav-link"
-            onClick={() => setExpanded(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/projects"
-            className="nav-link"
-            onClick={() => setExpanded(false)}
-          >
-            Projects
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className="nav-link"
-            onClick={() => setExpanded(false)}
-          >
-            Contact
-          </NavLink>
-          <NavLink
-            to="/resume"
-            className="nav-link"
-            onClick={() => setExpanded(false)}
-          >
-            Resume
-          </NavLink>
-        </Nav>
-        <Nav className="d-flex">
-          <a href="/vcard.vcf" aria-label="Download contact card" className="navbar-btn">
-            <PersonVcard size={24} />
-          </a>
-          <a
-            href="/KishanManoharanResume.pdf"
-            aria-label="Open résumé PDF in a new tab"
-            rel="noopener"
-            className="navbar-btn"
-            target="_blank"
-          >
-            <FileEarmarkText size={24} />
-          </a>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+    <header className="portfolio-nav">
+      <Glass key={String(reducedMotion)} aria-hidden="true" className="navbar-lens" />
+      <Link className="portfolio-brand" to="/">Kishan M</Link>
+      <div className="portfolio-tab-slot">
+        <TabBar
+          aria-label="Main navigation"
+          className="portfolio-tabs"
+          items={pages}
+          value={selected?.value ?? null}
+          link={RouteLink}
+        />
+      </div>
+      <Menu
+        key={reducedMotion ? "static-options" : "glass-options"}
+        aria-label="Portfolio options"
+        className="portfolio-options"
+        items={[
+          {
+            label: "Contact card",
+            icon: <PersonVcard aria-hidden="true" />,
+            onSelect: () => window.location.assign("/vcard.vcf"),
+          },
+          {
+            label: "Open résumé PDF",
+            icon: <FileEarmarkText aria-hidden="true" />,
+            onSelect: () => window.open("/KishanManoharanResume.pdf", "_blank", "noopener"),
+          },
+        ]}
+      />
+    </header>
   );
 };

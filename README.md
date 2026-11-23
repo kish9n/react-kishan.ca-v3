@@ -14,6 +14,8 @@ Personal website - React based
 - [React Bootstrap](https://react-bootstrap.github.io/)
 - [React Particles](https://particles.js.org/)
 - [Framer Motion](https://www.framer.com/motion/)
+- [Glisse](https://glisse.kelvinzhang.ca/) for the glass navigation and controls
+- [Swiper](https://swiperjs.com/) for the looping project carousel
 
 ## Pages and Links
 
@@ -22,6 +24,4 @@ Personal website - React based
   - Projects - Quickly view my projects
   - Contact - How to contact me
   - Resume - At a glance resume (Download available)
-- Nav Buttons
-  - Contact Info (IOS ONLY) - Import my contact info directly into your phone
-  - Resume - View and download my up-to-date resume
+- The navigation options menu opens the contact card (vCard) or the resume PDF.
