@@ -120,16 +120,13 @@ a {
   background-color: #ffffffa0 !important;
   color: #000000 !important;
 }
-.btn:active {
-  border-color: none !important;
+#root :focus-visible {
+  outline: 3px solid #8be4ff;
+  outline-offset: 2px;
 }
-.btn:focus {
-  border-color: none !important;
-}
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus {
-  box-shadow: none !important;
+
+html body {
+  background: #000;
 }
 
 .svg {
@@ -142,19 +139,6 @@ a {
 }
 .svg:hover {
   opacity: 1;
-}
-
-#ambientspotify {
-  background-image: url("img/ambientspotify.PNG") !important;
-}
-#simplestats {
-  background-image: url("img/simplestats.PNG") !important;
-}
-#minimalminispotify {
-  background-image: url("img/minimalminispotify.PNG") !important;
-}
-#peopleplanner {
-  background-image: url("img/peopleplanner.PNG") !important;
 }
 
 .tag {
@@ -192,42 +176,74 @@ a {
 }
 
 .project-card {
-  border-radius: 25px;
-  min-height: 50vh;
-  backdrop-filter: none;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: 0 !important;
-  background-color: #202020;
-  display: block;
-  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  opacity: 1;
+  border-radius: 20px;
+  background: #202020;
+  text-align: left;
+}
+
+.project-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #101010;
 }
 
 .project-text {
-  padding: 1vh;
-  /* border-radius: 25px; */
-  backdrop-filter: blur(5px);
-  background-color: #000000a0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.25rem;
+  font-size: 1rem;
+}
+
+.project-text a {
+  margin-top: auto;
 }
 
 .project-title {
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: #fff;
-}
-.project-info {
-  font-size: 1rem;
-  font-weight: 300;
-  color: #fff;
+  font-size: 1.5rem;
 }
 
-.page-motion-style {
-  position: absolute;
+.project-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.project-controls .btn {
+  font-size: 1rem;
+}
+
+.swiper-slide:has(.project-card) {
+  height: auto;
 }
 
 .navbar-brand {
   padding: 5px !important;
+}
+
+.project-carousel {
+  --swiper-theme-color: #fff;
+  --swiper-pagination-bullet-inactive-color: #aaa;
+  --swiper-scrollbar-bg-color: #333;
+  --swiper-scrollbar-drag-bg-color: #aaa;
+  padding-bottom: 14px;
+}
+
+.project-carousel .swiper-pagination {
+  position: static;
+}
+
+.project-carousel .swiper-pagination-bullet {
+  margin: 0 8px;
+}
+
+.alert .alert-link {
+  color: inherit !important;
 }

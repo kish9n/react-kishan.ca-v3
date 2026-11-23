@@ -14,12 +14,13 @@ export const KNavbar = () => {
       sticky="top"
       className="blur grey"
       expand="sm"
+      onToggle={setExpanded}
       expanded={expanded}
     >
       <Navbar.Brand onClick={() => setExpanded(false)} as={Link} to="/">
         Kishan M
       </Navbar.Brand>
-      <Navbar.Toggle onClick={() => setExpanded(expanded ? false : true)} />
+      <Navbar.Toggle aria-controls="basic-navbar-nav" aria-expanded={expanded} />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav variant="pills" className="me-auto" defaultActiveKey="/">
           <NavLink
@@ -52,11 +53,13 @@ export const KNavbar = () => {
           </NavLink>
         </Nav>
         <Nav className="d-flex">
-          <a href="./vcard.vcf" className="navbar-btn">
+          <a href="/vcard.vcf" aria-label="Download contact card" className="navbar-btn">
             <PersonVcard size={24} />
           </a>
           <a
-            href="./KishanManoharanResume.pdf"
+            href="/KishanManoharanResume.pdf"
+            aria-label="Open résumé PDF in a new tab"
+            rel="noopener"
             className="navbar-btn"
             target="_blank"
           >

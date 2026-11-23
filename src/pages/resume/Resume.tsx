@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
-import "./KishanManoharanResume.pdf";
 import randomColor from "randomcolor";
 
 function randColor() {
@@ -48,7 +47,7 @@ export const Resume = () => {
               Take a look below for a quick run-down, or download my full resume
             </h6>
             <Col>
-              <Button href="./KishanManoharanResume.pdf" target="_blank">
+              <Button href="/KishanManoharanResume.pdf" target="_blank">
                 Open Resume
               </Button>
             </Col>
@@ -113,24 +112,24 @@ export const Resume = () => {
                       <strong>Languages</strong>
                     </h4>
                     {langs.map((lang) => (
-                      <div className="tag" style={{ color: randColor() }}>
+                      <div key={lang} className="tag" style={{ color: randColor() }}>
                         {lang}
                       </div>
                     ))}
                     <h4 className="pt-3">
                       <strong>Frameworks</strong>
                     </h4>
-                    {frames.map((frames) => (
-                      <div className="tag" style={{ color: randColor() }}>
-                        {frames}
+                    {frames.map((frame) => (
+                      <div key={frame} className="tag" style={{ color: randColor() }}>
+                        {frame}
                       </div>
                     ))}
                     <h4 className="pt-3">
                       <strong>Others</strong>
                     </h4>
-                    {tools.map((tools) => (
-                      <div className="tag" style={{ color: randColor() }}>
-                        {tools}
+                    {tools.map((tool) => (
+                      <div key={tool} className="tag" style={{ color: randColor() }}>
+                        {tool}
                       </div>
                     ))}
                   </div>

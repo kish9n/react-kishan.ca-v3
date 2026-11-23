@@ -1,113 +1,102 @@
-import React from "react";
-import { Container, Row, Col, Button, Alert } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+import { useRef, useState, type FormEvent } from "react";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import emailjs from "@emailjs/browser";
 
+type Delivery = "idle" | "sending" | "sent" | "failed";
+
 export const Contact = () => {
-  const [name, setname] = React.useState("");
-  const [email, setemail] = React.useState("");
-  const [reason, setreason] = React.useState("");
-  const [details, setdetails] = React.useState("");
+  const [delivery, setDelivery] = useState<Delivery>("idle");
+  const inFlight = useRef(false);
 
-  const [sent, setsent] = React.useState(false);
+  async function submitForm(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (inFlight.current || !form.reportValidity()) return;
 
-  const submitForm = () => {
-    console.log("Sending email...");
+    const data = new FormData(form);
+    const message = Object.fromEntries(
+      Array.from(data, ([key, value]) => [key, String(value).trim()])
+    );
+    if (!message.name || !message.details) {
+      const field = form.elements.namedItem(!message.name ? "name" : "details") as HTMLInputElement | HTMLTextAreaElement;
+      field.setCustomValidity("Please enter more than spaces.");
+      field.reportValidity();
+      return;
+    }
 
-    const message = {
-      name: name,
-      email: email,
-      reason: reason,
-      details: details,
-    };
-
-    console.log(message);
-
-    emailjs
-      .send(
+    inFlight.current = true;
+    setDelivery("sending");
+    try {
+      await emailjs.send(
         import.meta.env.VITE_EMAIL_SERVICE_ID,
         import.meta.env.VITE_EMAIL_TEMPLATE_ID,
         message,
         import.meta.env.VITE_EMAIL_PUBLIC_KEY
-      )
-      .then(
-        function (response) {
-          console.log("SUCCESS!", response.status, response.text);
-          setsent(true);
-        },
-        function (error) {
-          console.log("FAILED...", error);
-        }
       );
-  };
+      form.reset();
+      setDelivery("sent");
+    } catch {
+      setDelivery("failed");
+    } finally {
+      inFlight.current = false;
+    }
+  }
 
   return (
     <>
       <Container fluid className="App-header">
         <Container className="title title-pad-1">
-          <Row>
-            <h2>Contact</h2>
-            <h5>You can reach me here!</h5>
-          </Row>
+          <h1>Contact</h1>
+          <p>You can reach me here!</p>
         </Container>
         <Container className="title-pad-0">
-          <Alert variant="success" show={sent}>
-            <Alert.Heading>Message sent!</Alert.Heading>
-          </Alert>
-          <Form>
-            <Row>
-              <Col lg={4}>
-                <Form.Group className="mb-3" controlId="formName">
-                  <Form.Label>Name:</Form.Label>
-                  <Form.Control
-                    type="name"
-                    onChange={(e) => setname(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col lg={4}>
-                <Form.Group className="mb-3" controlId="formEmail">
-                  <Form.Label>Email:</Form.Label>
-                  <Form.Control
-                    type="email"
-                    onChange={(e) => setemail(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col lg={4}>
-                <Form.Group className="mb-3" controlId="formReason">
-                  <Form.Label>Reason:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    className="grey"
-                    onChange={(e) => setreason(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="mb-3" controlId="formReason">
-                  <Form.Label>Any Details?</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    onChange={(e) => setdetails(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <input
-                  type="button"
-                  value="Submit"
-                  className="btn btn--submit"
-                  onClick={submitForm}
-                ></input>
-              </Col>
-            </Row>
+          <Form onSubmit={submitForm} onChange={(event) => {
+            const field = event.target;
+            if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+              field.setCustomValidity("");
+            }
+            setDelivery("idle");
+          }}>
+            <fieldset disabled={delivery === "sending"}>
+              <Row>
+                <Col lg={4}>
+                  <Form.Group className="mb-3" controlId="formName">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control name="name" autoComplete="name" required />
+                  </Form.Group>
+                </Col>
+                <Col lg={4}>
+                  <Form.Group className="mb-3" controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control name="email" type="email" autoComplete="email" required />
+                  </Form.Group>
+                </Col>
+                <Col lg={4}>
+                  <Form.Group className="mb-3" controlId="formReason">
+                    <Form.Label>Reason (optional)</Form.Label>
+                    <Form.Control name="reason" />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Form.Group className="mb-3" controlId="formDetails">
+                <Form.Label>Message</Form.Label>
+                <Form.Control name="details" as="textarea" rows={3} required />
+              </Form.Group>
+              <Button type="submit" disabled={delivery === "sending"}>
+                {delivery === "sending" ? "Sending…" : "Send message"}
+              </Button>
+            </fieldset>
           </Form>
+          <div role="status" aria-live="polite">
+            {delivery === "sending" && <span className="visually-hidden">Sending your message</span>}
+            {delivery === "sent" && <p>Message sent!</p>}
+          </div>
+          {delivery === "failed" && (
+            <Alert variant="danger">
+              Your message couldn’t be sent. Try again or{" "}
+              <a className="alert-link" href="mailto:kishan@kishanm.ca">email me directly</a>.
+            </Alert>
+          )}
         </Container>
         <Container className="title-pad-0">
           <Row>
@@ -119,7 +108,7 @@ export const Contact = () => {
               </Row>
               <Row>
                 <Col>
-                  <Button href="./vcard.vcf">vCard</Button>
+                  <Button href="/vcard.vcf">vCard</Button>
                 </Col>
               </Row>
             </Col>
